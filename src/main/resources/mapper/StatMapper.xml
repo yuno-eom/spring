@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.report.mapper.StatMapper">
+
+	<select id="selectBoardStat" resultType="dMap" parameterType="com.dev.spring.report.model.ReportVO">
+		SELECT YY, BD_GRP
+		     , SUM(CASE WHEN MM = '01' THEN 1 ELSE 0 END) AS M01
+		     , SUM(CASE WHEN MM = '02' THEN 1 ELSE 0 END) AS M02
+		     , SUM(CASE WHEN MM = '03' THEN 1 ELSE 0 END) AS M03
+		     , SUM(CASE WHEN MM = '04' THEN 1 ELSE 0 END) AS M04
+		     , SUM(CASE WHEN MM = '05' THEN 1 ELSE 0 END) AS M05
+		     , SUM(CASE WHEN MM = '06' THEN 1 ELSE 0 END) AS M06
+		     , SUM(CASE WHEN MM = '07' THEN 1 ELSE 0 END) AS M07
+		     , SUM(CASE WHEN MM = '08' THEN 1 ELSE 0 END) AS M08
+		     , SUM(CASE WHEN MM = '09' THEN 1 ELSE 0 END) AS M09
+		     , SUM(CASE WHEN MM = '10' THEN 1 ELSE 0 END) AS M10
+		     , SUM(CASE WHEN MM = '11' THEN 1 ELSE 0 END) AS M11
+		     , SUM(CASE WHEN MM = '12' THEN 1 ELSE 0 END) AS M12
+		     , COUNT(*) AS TOT
+		  FROM (SELECT BD_GRP, substr(REG_YMDT, 1, 4) AS YY, substr(REG_YMDT, 6, 2) AS MM 
+				  FROM BOARD
+				 WHERE substr(REG_YMDT, 1, 4) = #{searchFilter}
+			   )
+		 GROUP BY BD_GRP
+		 ORDER BY YY
+	</select>
+
+</mapper>

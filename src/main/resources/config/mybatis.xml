@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!--settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="useGeneratedKeys" value="true" />
+		<setting name="defaultExecutorType" value="BATCH" />
+		<setting name="defaultStatementTimeout" value="3000" />
+	</settings-->
+	
+	<typeAliases>
+		<typeAlias alias="dMap" type="com.dev.spring.common.DataMap" />
+		<typeAlias alias="searchVO" type="com.dev.spring.common.model.SearchVO" />
+		<typeAlias alias="userInfo" type="com.dev.spring.user.model.UserInfo" />
+		<typeAlias alias="commonBoard" type="com.dev.spring.board.model.CommonBoard" />
+	</typeAliases>
+	
+	<typeHandlers>
+	
+	</typeHandlers>
+</configuration>

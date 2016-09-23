@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+	<import resource="batch-job-*.xml" />
+
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="sqlite" />
+	</bean>
+	
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<!-- 
+	<jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="org/springframework/batch/core/schema-drop-sqlite.sql" />
+		<jdbc:script location="org/springframework/batch/core/schema-sqlite.sql" />
+	</jdbc:initialize-database>
+	-->
+	
+	<bean id="reportJobScheduler" class="com.dev.spring.batch.ReportJobScheduler" />
+	
+	<task:scheduled-tasks>
+		<task:scheduled ref="reportJobScheduler" method="run" cron="0 0 2 * * ?" />
+		<!--task:scheduled ref="reportJobScheduler" method="run" cron="0 0/5 * * * *" /-->
+	</task:scheduled-tasks>
+	
+	<bean id="mybatisJobScheduler" class="com.dev.spring.batch.MybatisJobScheduler" />
+	
+	<task:scheduled-tasks>
+		<task:scheduled ref="mybatisJobScheduler" method="run" cron="0 10 2 * * ?" />
+		<!--task:scheduled ref="mybatisJobScheduler" method="run" cron="30 0/5 * * * *" /-->
+	</task:scheduled-tasks>
+</beans>

@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+	
+	<batch:job id="mybatisJob">
+		<batch:step id="mybatis.step1">
+			<batch:tasklet>
+				<batch:chunk reader="mybatisReader" writer="mybatisWriter" processor="mybatisProcessor" commit-interval="10" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="mybatisReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="queryId" value="com.dev.spring.batch.mapper.BatchMapper.selectBoardSum" />
+		<property name="pageSize" value="10" />
+	</bean>
+
+	<bean id="mybatisWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="statementId" value="com.dev.spring.batch.mapper.BatchMapper.insertBoardSum" />
+	</bean>
+	
+	<bean id="mybatisProcessor" class="com.dev.spring.batch.service.MybatisProcessor" scope="step" />
+
+</beans>

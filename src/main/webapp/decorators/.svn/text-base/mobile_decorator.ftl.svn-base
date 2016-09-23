@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+<title>Patient Information | Smart phc</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1, target-densitydpi=medium-dpi" />
+<!--[if !IE 9]>
+<script src="${base}/common/js/html5shiv.js"></script>
+<script src="${base}/common/js/html5shiv-printshiv.js"></script>
+<![endif]-->
+<!--[if gt IE 7]>
+<link rel="stylesheet" type="text/css" href="${base}/css/style_en_hack.css" />
+<![endif]-->
+
+	<link rel="stylesheet" type="text/css" href="${base}/css/style_en.css" />
+	<link rel="stylesheet" type="text/css" href="${base}/css/layer.css" />
+	<script type="text/javascript">
+		function goIndex(){
+			var frm = document.getElementById("indexForm");
+			frm.submit();
+		}
+	</script>
+</head>
+
+<body class="uiTab">
+	<form id="indexForm" method="post" action="${base}/mobile/index"></form>
+	<!-- common header -->
+	<header id="dHeadTab">
+		<div class="headWrap_tab">
+			<h1 class="logo"><a href="#" onClick="goIndex()"><img src="${base}/images/logo.png" alt="Smart phc" /></a></h1>
+		</div>
+	</header>
+	
+	<hr />
+	<!-- //common header  -->
+	
+	<section id="dBody">
+		<div id="bodyWrap">
+			${body}
+		<div>
+	</section>
+</body>
+</html>

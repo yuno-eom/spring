@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.board.mapper.BoardMapper">
+
+	<resultMap id="boardList" type="commonBoard">
+		<result property="bdSeq" column="BD_SEQ" />
+		<result property="prSeq" column="PR_SEQ" />
+		<result property="title" column="TITLE" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regYmdt" column="REG_YMDT" />
+	</resultMap>
+	
+	<resultMap id="boardMap" type="commonBoard">
+		<result property="bdSeq" column="BD_SEQ" />
+		<result property="prSeq" column="PR_SEQ" />
+		<result property="bdGrp" column="BD_GRP" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="userId" column="USER_ID" />
+		<result property="regNm" column="REG_NM" />
+		<result property="regYmdt" column="REG_YMDT" />
+		
+		<collection property="bdFiles" column="BD_SEQ" javaType="java.util.ArrayList" select="selectBoardFiles"/>
+	</resultMap>
+	
+	<resultMap id="fileMap" type="com.dev.spring.board.model.CommonFile">
+		<result property="fileSeq" column="FILE_SEQ"/>
+		<result property="bdSeq" column="BD_SEQ"/>
+		<result property="saveNm" column="SAVE_NM"/>
+		<result property="realNm" column="REAL_NM"/>
+		<result property="pathNm" column="PATH_NM"/>
+	</resultMap>
+	
+	<sql id="whereBoardList">
+		 WHERE BD_GRP = #{bdGrp}
+		<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(searchText)">
+			<if test="searchFilter == 'title'">AND UPPER(TITLE) LIKE UPPER('%' || #{searchText} || '%')</if>
+			<if test="searchFilter == 'content'">AND UPPER(CONTENT) LIKE UPPER('%' || #{searchText} || '%')</if>
+			<if test="searchFilter == 'writer'">AND UPPER(REG_NM) = UPPER(#{searchText})</if>
+		</if>
+		<!--
+		   <if test="@org.apache.commons.lang.StringUtils@isNotEmpty(sbTitle)">AND UPPER(TITLE) LIKE UPPER('%' || #{sbTitle} || '%')</if>
+		   <if test="@org.apache.commons.lang.StringUtils@isNotEmpty(sbContent)">AND UPPER(CONTENT) LIKE UPPER('%' || #{sbContent} || '%')</if>
+		   <if test="@org.apache.commons.lang.StringUtils@isNotEmpty(sbWriter)">AND UPPER(REG_NM) = UPPER(#{sbWriter})</if>
+		-->
+	</sql>
+	
+	<select id="selectBoardListRow" resultType="int" parameterType="com.dev.spring.board.model.SearchBoard">
+		SELECT COUNT(BD_SEQ)
+       	  FROM BOARD
+       	 <include refid="whereBoardList"/>
+	</select>
+	
+	<select id="selectBoardList" resultMap="boardList" parameterType="com.dev.spring.board.model.SearchBoard">
+		SELECT BD_SEQ, PR_SEQ, TITLE, REG_NM, REG_YMDT
+		     , CASE WHEN PR_SEQ = 0 THEN BD_SEQ ELSE PR_SEQ END AS BD_ORD
+	      FROM BOARD
+		<include refid="whereBoardList"/>
+		 ORDER BY BD_ORD DESC
+		 LIMIT #{page.rowCount} OFFSET #{page.scopeRow}
+	</select>
+	
+	<select id="selectBoard" resultMap="boardMap" parameterType="int">
+		SELECT BD_SEQ, PR_SEQ, BD_GRP, TITLE, CONTENT, USER_ID, REG_NM, REG_YMDT
+	      FROM BOARD
+	     WHERE BD_SEQ = #{bdSeq}
+	</select>
+	
+	<select id="selectBoardFiles" resultMap="fileMap" parameterType="int">
+		SELECT FILE_SEQ, BD_SEQ, SAVE_NM, REAL_NM, PATH_NM
+		  FROM BD_FILE
+		 WHERE BD_SEQ = #{bdSeq}
+	</select>
+	
+	<select id="selectDownload" resultMap="fileMap" parameterType="int">
+		SELECT FILE_SEQ, BD_SEQ, SAVE_NM, REAL_NM, PATH_NM
+		  FROM BD_FILE
+		 WHERE FILE_SEQ = #{fileSeq}
+	</select>
+	
+	<insert id="insertBoard" parameterType="commonBoard" useGeneratedKeys="true" keyProperty="bdSeq" keyColumn="BD_SEQ">
+		INSERT INTO BOARD
+		       ( PR_SEQ, BD_GRP, TITLE, CONTENT, USER_ID, REG_NM, REG_YMDT )
+		VALUES
+		       ( #{prSeq}, #{bdGrp}, #{title}, #{content}, #{userId}, #{regNm}, DATETIME('now', 'localtime') )
+	</insert>
+	
+	<insert id="insertFile" parameterType="com.dev.spring.board.model.CommonFile">
+		INSERT INTO BD_FILE
+		       ( BD_SEQ, SAVE_NM, REAL_NM, PATH_NM )
+		VALUES
+		       ( #{bdSeq}, #{saveNm}, #{realNm}, #{pathNm} )
+	</insert>
+	
+	<update id="updateBoard" parameterType="commonBoard">
+		UPDATE BOARD
+		   SET TITLE = #{title}
+	         , CONTENT = #{content}
+		 WHERE BD_SEQ = #{bdSeq}		     
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE 
+		  FROM BOARD
+		 WHERE BD_SEQ = #{bdSeq} OR PR_SEQ = #{bdSeq}
+	</delete>
+	
+	<delete id="deleteFile" parameterType="int">
+		DELETE
+		  FROM BD_FILE
+		 WHERE BD_SEQ = #{bdSeq}
+	</delete>
+	
+	<select id="selectBoardReply" resultType="int" parameterType="int">
+		SELECT BD_SEQ
+	      FROM BOARD
+	     WHERE PR_SEQ = #{bdSeq}
+	</select>
+
+</mapper>

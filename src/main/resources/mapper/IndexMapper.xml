@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.main.mapper.IndexMapper">
+	
+	<!--cache /-->
+	
+	<resultMap id="boardList" type="dMap">
+		<result property="BD_SEQ" column="BD_SEQ" />
+		<result property="BD_GRP" column="BD_GRP" />
+		<result property="TITLE" column="TITLE" />
+		<result property="CONTENT" column="CONTENT" javaType="String" />
+		<result property="REG_YMDT" column="REG_YMDT" />
+	</resultMap>
+
+	<select id="selectMainBoardList" resultMap="boardList" parameterType="dMap">
+		SELECT T1.BD_SEQ, T1.BD_GRP, T1.TITLE, T1.CONTENT, T1.REG_YMDT, count(*) AS rank
+		  FROM BOARD T1 JOIN BOARD T2 
+		    ON T1.BD_GRP = T2.BD_GRP AND T1.BD_SEQ &lt;= T2.BD_SEQ
+		 WHERE T1.BD_GRP IN ('inquiry', 'faq', 'notice')
+		 GROUP BY T1.BD_SEQ HAVING rank &lt;= 3
+		 ORDER BY T1.BD_SEQ DESC
+	</select>
+
+</mapper>

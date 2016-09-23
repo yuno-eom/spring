@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.system.mapper.WebLogMapper">
+    
+    <!--cache /-->
+    
+	<insert id="insertWebLog" parameterType="com.dev.spring.system.model.WebLogVO">
+		INSERT INTO WEBLOG
+		       ( 
+		         URL
+		         <if test="remoteAddr != null">, REMOTE_ADDR </if>
+		         <if test="httpReferer != null">, HTTP_REFERER </if>
+		         <if test="httpUserAgent != null">, HTTP_USER_AGENT</if>
+		         <if test="userId != null">, USER_ID</if>
+		         , INPUT_YMDT
+		       )
+		  VALUES 
+		       ( 
+		         #{url}
+		         <if test="remoteAddr != null">, #{remoteAddr}</if>
+		         <if test="httpReferer != null">, #{httpReferer} </if>
+		         <if test="httpUserAgent != null">, #{httpUserAgent}</if>
+		         <if test="userId != null">, #{userId}</if>
+		         , DATETIME('now', 'localtime')
+		       )
+	</insert>
+	
+</mapper>

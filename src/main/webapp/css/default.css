@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+body{margin:0;padding:0}
+body,input,select,textarea{font-size:12px;line-height:120%;font-family:"굴림";color:#5e5e5e}
+img,iframe{border:0 none}
+button,label{cursor:pointer;}
+legend{display:none}
+input,img,select{vertical-align:middle;}
+a{color:#5e5e5e; text-decoration:none}
+a:hover{color:#ff9900; text-decoration:underline;}
+
+/*layout*/
+#wrapper{position:relative; min-height:100%; *zoom:1;}
+#header{position:relative; z-index:20; *zoom:1; background-color:#ddd; padding:10px; height:50px;}
+#header:after{content:""; display:block; clear:both;}
+#container{min-height:100%; width:860px; margin:0 auto;}
+#primaryContent{z-index:10; margin:1px 0 0; _display:inline; *zoom:1;}
+#primaryContent:after{content:""; display:block; clear:both;}
+#sideContent{float:left; display:inline; width:150px; margin:1px 0 0; *zoom:1; background-color:#ddd;}
+#mainContent{float:left; display:inline; width:650px; padding:0 0 30px 30px; margin:0 0 0 -1px; border-left:1px solid #e9e9e9;}
+#footer{clear:both; margin-top:10px; background-color:#ddd; padding:10px; height:20px;}
+
+/*input*/
+input.text{border:1px solid #d1d1d1;padding:3px;width:600px;line-height:1em;_height:11px;}
+input.radio{vertical-align:-2px;}
+select.select{border:1px solid #d1d1d1;padding:2px;line-height:1em;_zoom:1.05;_padding:1px;}
+textarea.textarea{border:1px solid #d1d1d1;width:600px;height:200px;}
+
+/*table*/
+.table_01{width:100%; border-bottom:1px solid #dedede; border-top:2px solid #95a2ab; color:#666; font-size:12px; table-layout:fixed; overflow:hidden; border-collapse:collapse;}
+.table_01 th{padding:9px 0 5px 0; background-color:#f8f8f8; border-top:1px solid #95a2ab; border-right:1px solid #dedede; border-bottom:1px solid #dedede; text-align:center; font-weight:normal; color:#333;}
+.table_01 th.no_line{border-right:0px; }
+.table_01 td{vertical-align:middle; padding:5px 0 3px 0; border-top:1px solid #dedede; border-bottom:0px solid #dedede; border-right:1px solid #dedede; text-align:center;}
+.table_01 td.no_line{border-right:0px;}
+.table_01 td.left{text-align:left; padding:0 0 0 5px;}
+
+.paging{margin-top:10px; text-align:center;}

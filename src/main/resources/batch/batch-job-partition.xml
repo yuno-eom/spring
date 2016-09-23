@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+	
+	<batch:job id="partitionJob">
+		<batch:step id="master.step" next="decision">
+			<batch:partition step="slave.step" partitioner="jobPartitioner">
+				<batch:handler task-executor="jobTaskExecutor" /> <!-- grid-size="" -->
+			</batch:partition>
+		</batch:step>
+		<batch:decision id="decision" decider="jobDecider">
+			<batch:next on="report" to="report.step" />
+		</batch:decision>
+		<batch:step id="report.step">
+			<batch:job ref="reportJob" job-launcher="jobLauncher" /> <!-- job-parameters-extractor="" -->
+			<!--batch:tasklet>
+				<batch:chunk reader="cvsFileItemReader" writer="xmlItemWriter" processor="reportProcessor" commit-interval="10" />
+			</batch:tasklet-->
+		</batch:step>
+	</batch:job>
+
+	<batch:step id="slave.step">
+		<batch:tasklet>
+			<batch:chunk reader="mybatisReader" writer="mybatisWriter" processor="mybatisProcessor" commit-interval="3" />
+		</batch:tasklet>
+	</batch:step>
+	
+	<bean id="jobPartitioner" class="com.dev.spring.batch.util.MybatisPartitioner" />
+	
+	<bean id="jobTaskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+	
+	<bean id="jobDecider" class="com.dev.spring.batch.util.MybatisDecider" />
+
+	<bean id="mybatisReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="queryId" value="com.dev.spring.batch.mapper.BatchMapper.selectBoardSum" />
+		<property name="parameterValues">
+			<map>
+				<entry key="boardGrp" value="#{stepExecutionContext[boardGrp]}" />
+			</map>
+		</property>
+		<property name="pageSize" value="3" />
+	</bean>
+
+	<bean id="mybatisWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="statementId" value="com.dev.spring.batch.mapper.BatchMapper.insertBoardSum" />
+	</bean>
+	
+	<bean id="mybatisProcessor" class="com.dev.spring.batch.service.MybatisProcessor" scope="step" />
+
+</beans>

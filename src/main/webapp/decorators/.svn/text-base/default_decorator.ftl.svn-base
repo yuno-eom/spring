@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+<title>Patient Information | Smart phc</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=1, target-densitydpi=medium-dpi" />
+<!--[if !IE 9]>
+<script src="${base}/common/js/html5shiv.js"></script>
+<script src="${base}/common/js/html5shiv-printshiv.js"></script>
+<![endif]-->
+<!--[if gt IE 7]>
+<link rel="stylesheet" type="text/css" href="${base}/css/style_en_hack.css" />
+<![endif]-->
+
+<link rel="stylesheet" type="text/css" href="${base}/css/style_en.css" />
+<script type="text/javascript" src="${base}/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="${base}/js/front_js.js"></script>
+<script type="text/javascript" src="${base}/js/hoverIntent.js"></script>
+<script type="text/javascript" src="${base}/js/borwerDpi.js"></script>
+<script type="text/javascript" src="${base}/js/jquery-ui-1.10.3.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${base}/css/redmond/jquery-ui-1.10.3.custom.min.css" media="screen, projection" />
+<script type="text/javascript" src="${base}/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="${base}/js/jquery.qtip-1.0.0-rc3.min.js"></script>
+<script type="text/javascript" src="${base}/js/Utils.js"></script>
+
+<link rel="stylesheet" type="text/css" href="${base}/css/layer.css" />
+<script type="text/javascript" src="${base}/js/common.js"></script>
+</head>
+
+<body class="uiWeb">
+	<!-- common header -->
+	
+	<!-- headWrap -->
+	<#include "/decorators/common/top_decorator.ftl" />
+	<!-- headWrap -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".menuJs > ul").superfish({speed:'fast', animation:{height:'show'}});
+		});		
+	</script>
+	<hr />
+	<!-- //common header  -->
+	
+	<section id="dBody">
+		<div id="bodyWrap">
+			<h1 class="invisible">Medical Record > Test Result</h1>
+			${body}
+		</div>
+	</section>
+	
+	<#include "/decorators/common/bottom_decorator.ftl" />
+	
+	<script type="text/javascript">
+		$(window).resize(function(){
+			var h = $(document).height() - ($('#dFoot').offset().top + 71);
+			if(h > 10) $('#dBody').css("height", ($('#dBody').height() + h));
+		}).resize();
+	</script>
+</body>
+</html>

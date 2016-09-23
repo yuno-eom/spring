@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.user.mapper.UserMapper">
+    
+	<resultMap id="userInfoMap" type="userInfo">
+		<result property="userId" column="USER_ID" />
+		<result property="pwd" column="USER_PW" />
+		<result property="userNm" column="USER_NM" />
+		<result property="email" column="EMAIL" />
+		<result property="grade" column="GRADE" />
+	</resultMap>
+	
+	<select id="selectUserInfo" resultMap="userInfoMap" parameterType="dMap">
+		SELECT USER_ID, USER_PW, USER_NM, EMAIL, GRADE
+		  FROM USER
+		<where>
+		    <if test="userId != null">USER_ID = #{userId}</if>
+		    <if test="pwd != null">AND USER_PW = #{pwd}</if>
+		    <if test="email != null">AND EMAIL = #{email}</if>
+		</where>
+	</select>
+	
+	<select id="selectUserInfoList" resultMap="userInfoMap" parameterType="dMap">
+		SELECT USER_ID, USER_PW, USER_NM, EMAIL, GRADE
+		  FROM USER
+		<where>
+		    <if test="userId != null">USER_ID = #{userId}</if>
+		    <if test="pwd != null">AND USER_PW = #{pwd}</if>
+		    <if test="email != null">AND EMAIL = #{email}</if>
+		</where>
+	</select>
+	
+	<delete id="deleteUserInfo" parameterType="dMap">
+		DELETE 
+		  FROM USER
+		 WHERE USER_ID IN
+			<foreach item="userId" collection="userId" index="index" open="(" separator="," close=")">
+		       #{userId}
+			</foreach> 
+	</delete>
+	
+	<insert id="insertUserInfo" parameterType="userInfo">
+		INSERT INTO USER 
+		       ( USER_ID, USER_PW, USER_NM, EMAIL, GRADE )
+		VALUES ( #{userId}, #{pwd}, #{userNm}, #{email}, #{grade} )
+	</insert>
+	
+	<update id="updateUserInfo" parameterType="userInfo">
+		UPDATE USER
+		<set>
+		    <if test="pwd != null">USER_PW = #{pwd},</if>
+		    <if test="userNm != null">USER_NM = #{userNm},</if>
+		    <if test="email != null">EMAIL = #{email},</if>
+		    <if test="grade != null">GRADE = #{grade}</if>
+		</set>
+		 WHERE USER_ID = #{userId}
+	</update>
+	
+	<sql id="whereUserGrid">
+		<where>
+			<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(searchString)">UPPER(USER_NM) LIKE UPPER('%' || #{searchString} || '%')</if>
+		    <if test="userId != null">USER_ID = #{userId}</if>
+		    <if test="pwd != null">AND USER_PW = #{pwd}</if>
+		    <if test="email != null">AND EMAIL = #{email}</if>
+		</where>
+	</sql>
+		
+	<select id="selectUserGridRow" resultType="int" parameterType="dMap">
+		SELECT COUNT(*)
+		  FROM USER
+		 <include refid="whereUserGrid"/>
+	</select>
+	
+	<select id="selectUserGrid" resultType="dMap" parameterType="dMap">
+		SELECT USER_ID, USER_PW, USER_NM, EMAIL, GRADE
+		  FROM USER
+		<include refid="whereUserGrid"/>
+		<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(sidx)">
+		 ORDER BY ${sidx} ${sord}
+		</if>
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+<!-- use @mapKey
+	<resultMap id="statisticsMst" type="Map">
+		<id property="staCodGrp" column="StaCodGrp" />
+		<collection property="statisticsList" column="staCodGrp" javaType="ArrayList" select="selectStatisticsMstByGrp" />
+	</resultMap>
+	
+	<select id="selectStatisticsMstByGrp" resultType="dMap" parameterType="dMap">
+		SELECT * 
+		  FROM M_StatisticsMst
+		 WHERE StaCodGrp = #{staCodGrp}
+	</select>
+	
+	<select id="selectStatisticsMst" resultMap="statisticsMst">
+		SELECT StaCodGrp
+		  FROM M_StatisticsMst
+		 GROUP BY StaCodGrp
+	</select>
+	
+	<resultMap id="indicatorMst" type="Map">
+		<id property="staCod" column="StaCod" />
+		<collection property="indicatorList" column="staCod" javaType="ArrayList" select="selectIndicatorMstByGrp" />
+	</resultMap>
+	
+	<select id="selectIndicatorMstByGrp" resultType="dMap" parameterType="dMap">
+		SELECT *
+		  FROM M_StatisticsIndicatorMst
+		 WHERE StaCod = #{staCod}
+	</select>
+	
+	<select id="selectIndicatorMst" resultMap="indicatorMst">
+		SELECT StaCod
+		  FROM M_StatisticsIndicatorMst
+		 GROUP BY StaCod
+	</select>
+	
+	<resultMap id="columnMst" type="Map">
+		<id property="scmColGrp" column="ScmColGrp" />
+		<collection property="columnList" column="scmColGrp" javaType="ArrayList" select="selectColumnMstByGrp" />
+	</resultMap>
+	
+	<select id="selectColumnMstByGrp" resultType="dMap" parameterType="dMap">
+		SELECT *
+		  FROM M_StatisticsColumnMst
+		 WHERE ScmColGrp = #{scmColGrp}
+	</select>
+	
+	<select id="selectColumnMst" resultMap="columnMst">
+		SELECT ScmColGrp
+		  FROM M_StatisticsColumnMst
+		 GROUP BY ScmColGrp
+	</select>
+-->
+</mapper>

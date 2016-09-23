@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="utf-8" lang="utf-8">
+<head>
+	<title>SPCC Administrator</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="${base}/images/sphc.ico" type="image/x-icon" />	
+	<link rel="stylesheet" type="text/css" href="${base}/css/admin/idaAdmin.css" />
+	<script type="text/javascript" src="${base}/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="${base}/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${base}/css/redmond/jquery-ui-1.10.3.custom.min.css" media="screen, projection" />
+	
+	<link rel="stylesheet" type="text/css" href="${base}/css/layer.css" />
+	<script type="text/javascript" src="${base}/js/common.js"></script>
+	
+</head>
+
+<body>
+	<div class="top">
+		<!-- 상단 공통 -->
+		<#include "/decorators/common/admin_top_decorator.ftl" />		
+		<!-- //상단 공통 -->
+	</div>
+
+<!-- contents S -->
+	<div id="contents">
+		<#if Session?exists && Session.adminId?exists && menuID?exists && menuID != "">		
+			<!-- Left Menu 공통 -->
+			<#include "/decorators/common/admin_left_decorator.ftl" />		
+			<!-- //Left Menu 공통 -->
+			<hr />
+		</#if>
+
+		<div id="bodyContent" <#if Session?exists && Session.adminId?exists && menuID?exists && menuID != ""><#else>style="padding-left:0px;"</#if>>	
+			<!-- Page Navi 공통 -->
+			<#include "/decorators/common/admin_nav_decorator.ftl" />		
+			<!-- //Page Navi 공통 -->
+
+			${body}
+			
+		</div>
+
+	</div>
+	<!-- contents E -->
+
+	<!-- 하단 -->
+	<#include "/decorators/common/admin_bottom_decorator.ftl" />	
+	<!-- //하단 -->
+	
+</body>
+</html>

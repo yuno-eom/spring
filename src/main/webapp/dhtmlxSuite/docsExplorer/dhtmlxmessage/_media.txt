@@ -1,0 +1,11 @@
+icons___file.gif
+dhtmlxmessage___message.png
+dhtmlxmessage___confirm_default.png
+dhtmlxmessage___alert_default.png
+dhtmlxmessage___alert_warning.png
+dhtmlxmessage___alert_error.png
+dhtmlxmessage___confirm-warning.png
+dhtmlxmessage___confirm_error.png
+dhtmlxmessage___confirm-skyblue.png
+dhtmlxmessage___confirm-web.png
+dhtmlxmessage___confirm-terrace.png

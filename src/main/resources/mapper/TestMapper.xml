@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dev.spring.test.mapper.TestMapper">
+    
+	<select id="selectTestKeyList" resultType="dMap" parameterType="dMap">
+		SELECT KEY1, KEY2, TEXT1, DATE1
+		  FROM KEY_TEST
+	</select>
+	
+	<insert id="insertTestKey" parameterType="dMap">
+		<selectKey keyProperty="key1,key2" resultType="dMap" order="BEFORE">
+			SELECT IFNULL(MAX(KEY1),0)+1 AS key1, IFNULL(MAX(KEY2),0)+1 AS key2 FROM KEY_TEST
+		</selectKey>
+		
+		INSERT INTO KEY_TEST 
+		       ( KEY1, KEY2, TEXT1, DATE1 )
+		VALUES ( #{key1}, #{key2}, #{text1}, DATETIME('now', 'localtime') )
+	</insert>
+
+</mapper>

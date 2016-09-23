@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>CutString</shortname>
+	
+	<tag>
+		<name>CutString</name>
+		<tagclass>com.dev.spring.common.taglib.CutStringTag</tagclass>
+		<attribute>
+			<name>cutString</name>
+		</attribute>
+		<attribute>
+			<name>cutLength</name>
+		</attribute>
+		<attribute>
+			<name>suffix</name>
+		</attribute>
+		<attribute>
+			<name>strongString</name>
+		</attribute>
+	</tag>
+</taglib>

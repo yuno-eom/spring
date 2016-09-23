@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/decorators">
+	<decorator name="index" page="index_decorator.ftl">
+		<pattern>/*</pattern>
+	</decorator>
+	
+	<decorator name="default" page="default_decorator.ftl">
+		<pattern>/*/*</pattern>
+	</decorator>
+	
+	<excludes>
+		<pattern>/*.jsp</pattern>
+		<pattern>/exclude/*</pattern>
+		<pattern>/download/*</pattern>
+		<pattern>/user/pop/*</pattern>
+		<pattern>/monitoring/*</pattern>
+	</excludes>
+</decorators>

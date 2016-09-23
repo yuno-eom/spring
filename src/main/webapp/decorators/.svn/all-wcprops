@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/spcc/!svn/ver/421/trunk/src/main/webapp/decorators
+END
+admin_decorator.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/spcc/!svn/ver/412/trunk/src/main/webapp/decorators/admin_decorator.ftl
+END
+default_decorator.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/spcc/!svn/ver/412/trunk/src/main/webapp/decorators/default_decorator.ftl
+END
+mobile_decorator.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/spcc/!svn/ver/322/trunk/src/main/webapp/decorators/mobile_decorator.ftl
+END
